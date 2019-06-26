@@ -1,0 +1,16 @@
+
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	compile group: 'org.apache.poi', name: 'poi', version: '4.1.0'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.0'
+	
+	compile group: 'joda-time', name: 'joda-time', version: '2.10.2'
+	compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+}
