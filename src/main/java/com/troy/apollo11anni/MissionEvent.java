@@ -1,12 +1,12 @@
 package com.troy.apollo11anni;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
 
 public class MissionEvent {
 	private String name, comments;
 	private DateTime time;
+
+	private static final DateTime APOLLO_11_LAUNCH_TIME = new DateTime(1969, 7, 16, 9, 32, 0);
 
 	public MissionEvent(String name, double gmtDate, double gmtTime, String comments) {
 		this.name = name;
@@ -21,7 +21,7 @@ public class MissionEvent {
 		minuites -= seconds;
 		seconds *= 60.0;
 
-		this.time = Constants.EXCEL_DAY_ZERO.plusDays((int) gmtDate).toDateTime(new LocalTime((int) hours, + (int) minuites, (int) seconds), DateTimeZone.UTC).withZone(DateTimeZone.getDefault());
+		this.time = Constants.EXCEL_DAY_ZERO.plusDays((int) gmtDate).toDateTime(new LocalTime((int) hours, (int) minuites, (int) seconds), DateTimeZone.UTC).withZone(DateTimeZone.getDefault());
 		this.comments = comments;
 		System.out.println(this);
 	}
@@ -30,13 +30,18 @@ public class MissionEvent {
 		return name;
 	}
 
-	public DateTime getTime() {
+	public DateTime getRealTime() {
 		return time;
 	}
 
 	@Override
 	public String toString() {
 		return "MissionEvent [name=" + name + ", comments=" + comments + ", time=" + time + "]";
+	}
+
+	public DateTime getTime(DateTime launchTime) {
+		Duration timeFromLaunch = new Duration(APOLLO_11_LAUNCH_TIME, time);
+		return launchTime.plus(timeFromLaunch);
 	}
 
 }
